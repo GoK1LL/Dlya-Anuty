@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>100 причин любить тебя | Нежный список</title>
+    <!-- Google Fonts: романтичный и чистый стиль -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (иконки сердечек) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #fff5f7 0%, #ffeef4 100%);
+            font-family: 'Quicksand', sans-serif;
+            color: #5c3e3b;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* главный контейнер — нежный, воздушный */
+        .love-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: rgba(255, 248, 250, 0.75);
+            backdrop-filter: blur(2px);
+            border-radius: 64px 48px 64px 48px;
+            box-shadow: 0 25px 50px -12px rgba(188, 108, 108, 0.25);
+            padding: 2rem 1.5rem 2.5rem;
+            border: 1px solid rgba(255, 215, 215, 0.6);
+        }
+
+        /* шапка с заголовком и плавающими сердечками */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.6rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #dd7c7c, #b9586e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.6rem;
+            display: inline-block;
+            position: relative;
+        }
+
+        .subhead {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #bf8585;
+            background: #fff0f3e0;
+            display: inline-block;
+            padding: 0.3rem 1.2rem;
+            border-radius: 60px;
+            backdrop-filter: blur(2px);
+            margin-top: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .subhead i {
+            margin: 0 6px;
+            color: #e69faf;
+        }
+
+        /* декоративные сердечки */
+        .floating-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-hearts i {
+            position: absolute;
+            color: #f7bac5;
+            font-size: 1.2rem;
+            opacity: 0.5;
+            animation: floatHeart 12s infinite linear;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100px) rotate(15deg);
+                opacity: 0;
+            }
+        }
+
+        /* счетчик причин в виде индикатора */
+        .counter-badge {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 1rem auto 1.8rem;
+        }
+
+        .pill {
+            background: #ffe1e8;
+            border-radius: 100px;
+            padding: 0.4rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #bd6d7c;
+            box-shadow: inset 0 0 0 1px #fff5f7, 0 4px 8px rgba(0,0,0,0.02);
+        }
+
+        .pill i {
+            margin-right: 5px;
+            color: #e6899c;
+        }
+
+        /* сетка списка — 2 колонки, красиво и читаемо */
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.2rem 1.8rem;
+            margin-top: 0.5rem;
+        }
+
+        /* карточка причины */
+        .reason-card {
+            background: rgba(255, 252, 253, 0.85);
+            backdrop-filter: blur(2px);
+            border-radius: 40px;
+            padding: 0.9rem 1.2rem 0.9rem 1rem;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            border: 1px solid rgba(255, 202, 212, 0.6);
+            box-shadow: 0 5px 12px rgba(190, 100, 100, 0.05);
+        }
+
+        .reason-card:hover {
+            transform: translateY(-3px);
+            background: #fffbfd;
+            border-color: #ffcfdb;
+            box-shadow: 0 14px 24px rgba(170, 90, 100, 0.12);
+        }
+
+        /* иконка-сердечко перед каждой причиной */
+        .heart-icon {
+            font-size: 1.45rem;
+            color: #e89bb0;
+            flex-shrink: 0;
+            margin-top: 2px;
+            transition: transform 0.2s;
+        }
+
+        .reason-card:hover .heart-icon {
+            transform: scale(1.08);
+            color: #dd6b86;
+        }
+
+        .reason-text {
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.4;
+            color: #4b2f2e;
+            letter-spacing: -0.2px;
+        }
+
+        .reason-number {
+            font-weight: 700;
+            color: #dd859b;
+            background: #fff0f3;
+            display: inline-block;
+            width: 26px;
+            height: 26px;
+            text-align: center;
+            line-height: 26px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            margin-right: 8px;
+            box-shadow: inset 0 0 0 1px #ffe2ea;
+        }
+
+        /* декоративный footer */
+        .footer-love {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.8rem;
+            border-top: 2px dashed #ffd5e0;
+            font-size: 0.85rem;
+            color: #bb7c86;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .footer-love i {
+            font-size: 1rem;
+            animation: pulseHeart 1.6s infinite;
+        }
+
+        @keyframes pulseHeart {
+            0% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 1; color: #e86f8f; }
+            100% { transform: scale(1); opacity: 0.7; }
+        }
+
+        /* адаптивность */
+        @media (max-width: 680px) {
+            body {
+                padding: 1rem;
+            }
+            .love-container {
+                padding: 1.5rem;
+            }
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            .reasons-grid {
+                grid-template-columns: 1fr;
+                gap: 0.9rem;
+            }
+            .reason-card {
+                padding: 0.7rem 1rem;
+            }
+            .reason-text {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* анимация появления карточек с задержкой */
+        .reason-card {
+            opacity: 0;
+            animation: fadeSlideUp 0.4s ease forwards;
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* добавляем индивидуальные задержки через style динамически или вручную, но сделаем общим классом */
+        /* Зададим небольшие задержки в зависимости от порядка, лучше через JS, но чтобы не усложнять — стилизуем универсально */
+        
+        /* красивая полоса прокрутки (webkit) */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffeef2;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #eaaebf;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #dc8da2;
+        }
+
+        /* ручная настройка сердечек в углах */
+        .corner-hearts {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            font-size: 28px;
+            opacity: 0.25;
+            pointer-events: none;
+            color: #f1adb9;
+            z-index: 0;
+        }
+        .corner-hearts.right {
+            left: auto;
+            right: 20px;
+            top: 20px;
+            bottom: auto;
+            transform: rotate(8deg);
+        }
+    </style>
+</head>
+<body>
+
+<div class="love-container">
+    <div class="header">
+        <div class="floating-hearts" id="floatingHeartsContainer"></div>
+        <h1>100 причин почему <i class="fas fa-heart" style="font-size: 2rem; background: none; -webkit-background-clip: unset; color: #e59aaa;"></i> я люблю тебя</h1>
+        <div class="subhead">
+            <i class="fas fa-feather-alt"></i> каждый день появляется еще больше причин <i class="fas fa-star-of-life"></i>
+        </div>
+        <div class="counter-badge">
+            <div class="pill"><i class="fas fa-heart"></i> 100/100 </div>
+            <div class="pill"><i class="fas fa-infinity"></i> бесконечная нежность</div>
+        </div>
+    </div>
+
+    <div class="reasons-grid" id="reasonsList"></div>
+
+    <div class="footer-love">
+        <span><i class="fas fa-heartbeat"></i> 100 причин, но их всегда больше</span>
+        <span><i class="fas fa-smile-wink"></i> для тебя, с любовью</span>
+        <span><i class="fas fa-seedling"></i> каждый миг</span>
+    </div>
+</div>
+
+<div class="corner-hearts"><i class="fas fa-heart"></i> <i class="fas fa-heart"></i> <i class="fas fa-heart"></i></div>
+<div class="corner-hearts right"><i class="fas fa-heart"></i> <i class="fas fa-heart"></i></div>
+
+<script>
+    // Каждая причина — нежное признание, согревающее душу.
+    const reasons = [
+        "Ты поднимаешь мне настроение.",
+        "Мы подходим друг другу.",
+        "У нас есть общие хобби и увлечений.",
+        "Ты пишешь мне милые сообщения.",
+        "Наши взгляды на многое сходятся.",
+        "Любишь меня со всеми моими недостатками.",
+        "Ты заботишься обо мне, когда я болею или устал.",
+        "Моё мнение ценно для тебя.",
+        "На тебя можно положиться в сложной ситуации.",
+        "Ты помогаешь мне советом, если у меня проблемы.",
+        "У тебя искромётное чувство юмора.",
+        "Ты потрясающе танцуешь.",
+        "Ты крепко-крепко обнимаешь меня во сне, сама того не осознавая.",
+        "Когда мы вместе, я не перестаю улыбаться.",
+        "Ты умеешь быть и женственной, и зажигающей одновременно.",
+        "Ты любишь меня любым.",
+        "Ты хорошо целуешься.",
+        "Ты замечаешь и ценишь мою заботу.",
+        "Ты даёшь мне свободу.",
+        "Ты делаешь мне сюрпризы.",
+        "Ты знаешь мои вкусы и любимые сладости.",
+        "У тебя красивые глаза, губы и улыбка.",
+        "Ты нравишься моим родителям.",
+        "От твоих прикосновений по телу бегут мурашки.",
+        "Ты тащищь меня на шоппинг, хоть это и не просто.",
+        "Рядом с тобой я чувствую себя увереннее.",
+        "Ты не перестаёшь удивлять меня.",
+        "Ты не даёшь поводов для ревности.",
+        "С тобой приятно молчать, лёжа в обнимку.",
+        "Каждый подарок от тебя – особенный.",
+        "Мы любим смотреть ужастики вместе.",
+        "У тебя «свежий» взгляд на многие вещи.",
+        "Твой голос сводит меня с ума.",
+        "Мне уютно рядом с тобой.",
+        "Мне никогда не скучно с тобой.",
+        "Ты принимаешь мои эмоции и умеешь меня поддержать.",
+        "Ты уважаешь моих родителей.",
+        "Ты умеешь внимательно и чутко выслушать все мои переживания(хоть я редко это делаю, но стараюсь чаще).",
+        "Ты меня вдохновляешь.",
+        "Ты прислушиваешься к моим советам.",
+        "Ты создаешь гармонию и уют отношениях.",
+        "Ты воспитанная.",
+        "Ты смеёшься, когда я шучу, даже если шутка не смешная.",
+        "Я себе завидую, когда просто смотрю на тебя.",
+        "Наши музыкальные вкусы на многие песни совпадают.",
+        "Ты понимаешь меня с полуслова.",
+        "Ты помнишь все наши важные даты.",
+        "Мы идеальная пара.",
+        "Ты романтичная.",
+        "С тобой время летит незаметно.",
+        "Ты планируешь наше совместное будущее.",
+        "Ты – мое всё!",
+        "Мы одно целое.",
+        "Я тону в твоих глазах.",
+        "Ты – моя гордость.",
+        "Лучший вечер – быть рядом с тобой.",
+        "Я всё время думаю о тебе.",
+        "Спасибо за то, что ты есть.",
+        "С тобой так легко.",
+        "Ты даришь мне счастье.",
+        "В твоих глазах я вижу любовь.",
+        "Мне так с тобой повезло.",
+        "Нет никого лучше тебя.",
+        "Ты – мой мир.",
+        "Ты кусаешь меня.",
+        "Моё сердце выбрало тебя.",
+        "Ты искренне радуешься за меня.",
+        "Ты – моя жизнь.",
+        "Ты говоришь, что я твой.",
+        "Я теряю голову, когда ты рядом.",
+        "Рядом с тобой я чувствую нежность и особую близость.",
+        "Ты греешь меня под одеялом.",
+        "Все счастливые стихи – о нас.",
+        "Мы с тобой классно смотримся вместе.",
+        "Ты всегда в моих мыслях.",
+        "Мы с тобой на одной волне.",
+        "Ты мне нужна как воздух.",
+        "Я рад, что ты выбрала меня.",
+        "Я хочу, чтобы мы всегда были вместе.",
+        "С тобой я понял, что такое любовь.",
+        "Между нами есть особая близость и доверие.",
+        "Ты умеешь хранить секреты.",
+        "Ты самый удивительный человек на свете.",
+        "Дороже тебя у меня никого нет.",
+        "Ты соблазнительная.",
+        "Я улыбаюсь, думая о тебе.",
+        "С тех пор как мы вместе, «мы» стало для меня важнее, чем «я».",
+        "Вместе мы можем творить чудеса.",
+        "Наша любовь всё сильнее с каждым днём.",
+        "Моё сердце бьётся ради тебя.",
+        "Ты – моя самая лучшая подруга.",
+        " Ты – моя прелесть.",
+        "У тебя есть ключ к моему сердцу.",
+        "Ты – моя леди.",
+        "Рядом с тобой мне спокойно и комфортно.",
+        "Когда мы вместе, время не имеет значения.",
+        "Меня непреодолимо тянет к тебе.",
+        " Я жду тебя, где бы ты ни была.",
+        "Ты всегда предлагаешь инетересные вещи."
+    ];
+
+    // Убедимся, что ровно 100 пунктов. Если больше — обрежем, если меньше — добавим базовые.
+    while(reasons.length < 100) {
+        reasons.push("Твоя нежность, которая не знает границ. ❤️");
+    }
+    if(reasons.length > 100) reasons.length = 100;
+
+    // Функция рендеринга списка с нумерацией
+    function renderReasons() {
+        const container = document.getElementById('reasonsList');
+        container.innerHTML = '';
+        reasons.forEach((reason, idx) => {
+            const card = document.createElement('div');
+            card.className = 'reason-card';
+            // небольшая анимационная задержка (стилизуем через инлайн для разнообразия)
+            card.style.animationDelay = `${Math.min(idx * 0.01, 0.8)}s`;
+            
+            const heartSpan = document.createElement('div');
+            heartSpan.className = 'heart-icon';
+            // чередуем иконки сердечек для эстетики
+            if (idx % 3 === 0) heartSpan.innerHTML = '<i class="fas fa-heart"></i>';
+            else if (idx % 3 === 1) heartSpan.innerHTML = '<i class="fas fa-heartbeat"></i>';
+            else heartSpan.innerHTML = '<i class="fas fa-heart"></i>';
+            
+            const textSpan = document.createElement('div');
+            textSpan.className = 'reason-text';
+            // добавляем номер
+            const numberSpan = document.createElement('span');
+            numberSpan.className = 'reason-number';
+            numberSpan.innerText = (idx + 1).toString();
+            const reasonTextNode = document.createTextNode(` ${reason}`);
+            textSpan.appendChild(numberSpan);
+            textSpan.appendChild(reasonTextNode);
+            
+            card.appendChild(heartSpan);
+            card.appendChild(textSpan);
+            container.appendChild(card);
+        });
+    }
+
+    // генерация плавающих сердечек в header
+    function generateFloatingHearts() {
+        const container = document.getElementById('floatingHeartsContainer');
+        if (!container) return;
+        const heartCount = 22;
+        for (let i = 0; i < heartCount; i++) {
+            const heart = document.createElement('i');
+            heart.classList.add('fas', 'fa-heart');
+            const size = 10 + Math.random() * 20;
+            heart.style.fontSize = `${size}px`;
+            heart.style.left = `${Math.random() * 100}%`;
+            heart.style.top = `${Math.random() * 80 + 10}%`;
+            heart.style.animationDuration = `${8 + Math.random() * 12}s`;
+            heart.style.animationDelay = `${Math.random() * 8}s`;
+            heart.style.opacity = 0.3 + Math.random() * 0.4;
+            container.appendChild(heart);
+        }
+    }
+
+    // дополнительно добавим красивые маленькие сердечки при скролле (не обязательно, но мило)
+    // просто запускаем генерацию и рендер
+    renderReasons();
+    generateFloatingHearts();
+
+    // Интерактив: при клике на карточку — легкий пульс и всплывающее сердечко (консоль тихая)
+    document.querySelectorAll('.reason-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+            const icon = this.querySelector('.heart-icon i');
+            if(icon) {
+                icon.style.transform = 'scale(1.3)';
+                setTimeout(() => { if(icon) icon.style.transform = ''; }, 200);
+            }
+            // небольшой анимированный эффект
+            this.style.backgroundColor = '#ffeef4';
+            setTimeout(() => { this.style.backgroundColor = ''; }, 150);
+        });
+    });
+    
+    // обновляем прослушку для динамических элементов (поскольку рендер завершен, прокинем события после рендера)
+    document.getElementById('reasonsList').addEventListener('click', (e) => {
+        let targetCard = e.target.closest('.reason-card');
+        if(targetCard) {
+            const iconWrap = targetCard.querySelector('.heart-icon i');
+            if(iconWrap) {
+                iconWrap.style.transform = 'scale(1.25)';
+                setTimeout(() => { if(iconWrap) iconWrap.style.transform = ''; }, 200);
+            }
+            targetCard.style.backgroundColor = '#ffeef4';
+            setTimeout(() => { if(targetCard) targetCard.style.backgroundColor = ''; }, 180);
+        }
+    });
+</script>
+</body>
+</html>

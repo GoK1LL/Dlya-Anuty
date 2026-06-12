@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Изящная галерея | Портфолио образа</title>
+    <!-- Google Fonts для утонченного стиля -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (free icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #fefaf7;   /* нежный телесный фон */
+            font-family: 'Inter', sans-serif;
+            color: #2e2a28;
+            line-height: 1.4;
+        }
+
+        /* плавный скролл */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* основной контейнер */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 2rem 4rem 2rem;
+        }
+
+        /* шапка с элегантным акцентом */
+        .hero {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500;
+            font-size: 3rem;
+            letter-spacing: -0.01em;
+            background: linear-gradient(135deg, #b27a62, #6e4c3c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero .sub {
+            font-size: 1rem;
+            font-weight: 300;
+            color: #9b7b6b;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .hero .sub span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hero .sub i {
+            font-size: 0.9rem;
+            color: #c28a72;
+        }
+
+        /* сетка галереи — флекс с элегантными пропорциями */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.8rem;
+        }
+
+        /* карточка фото */
+        .gallery-item {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #fff8f4;
+            box-shadow: 0 12px 28px -8px rgba(0,0,0,0.08);
+            transition: all 0.35s ease;
+            cursor: pointer;
+            aspect-ratio: 4 / 5;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 22px 32px -12px rgba(0,0,0,0.18);
+        }
+
+        /* изображение внутри карточки */
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.03);
+        }
+
+        /* оверлей с подписью (нежный при наведении) */
+        .overlay-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+            padding: 1.2rem 1rem 0.8rem;
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            text-align: left;
+            font-weight: 400;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            backdrop-filter: blur(2px);
+        }
+
+        .gallery-item:hover .overlay-caption {
+            transform: translateY(0);
+        }
+
+        .caption-text {
+            display: inline-block;
+            background: rgba(0,0,0,0.4);
+            border-radius: 30px;
+            padding: 0.25rem 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            backdrop-filter: blur(4px);
+        }
+
+        /* модальное окно (лайтбокс) */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(20, 15, 13, 0.92);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.25s ease;
+        }
+
+        .lightbox.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            max-width: 90vw;
+            max-height: 85vh;
+            position: relative;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 30px 40px rgba(0,0,0,0.3);
+            background: #1e1917;
+        }
+
+        .lightbox-content img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 18px;
+            right: 24px;
+            background: rgba(0,0,0,0.6);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            backdrop-filter: blur(5px);
+            z-index: 10;
+        }
+
+        .close-lightbox:hover {
+            background: #b27a62;
+            transform: scale(1.05);
+        }
+
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            border: none;
+            color: white;
+            font-size: 2.2rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 60px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            backdrop-filter: blur(6px);
+            z-index: 10;
+        }
+
+        .nav-btn:hover {
+            background: #b27a62;
+        }
+
+        .prev-btn {
+            left: 24px;
+        }
+
+        .next-btn {
+            right: 24px;
+        }
+
+        .lightbox-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.7), transparent);
+            color: #f0e4dd;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            pointer-events: none;
+        }
+
+        /* футер */
+        .footer-note {
+            margin-top: 4rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #c1a18e;
+            border-top: 1px solid #f0e2d9;
+            padding-top: 2rem;
+            font-weight: 300;
+        }
+
+        .footer-note i {
+            margin: 0 4px;
+        }
+
+        /* адаптивность */
+        @media (max-width: 640px) {
+            .container {
+                padding: 1.2rem;
+            }
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+            .gallery-grid {
+                gap: 1rem;
+            }
+            .nav-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 1.5rem;
+            }
+            .close-lightbox {
+                top: 12px;
+                right: 16px;
+                width: 36px;
+                height: 36px;
+                font-size: 1.6rem;
+            }
+        }
+
+        /* анимация появления карточек */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gallery-item {
+            animation: fadeUp 0.45s ease forwards;
+            opacity: 0;
+        }
+
+        .gallery-item:nth-child(1) { animation-delay: 0.05s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.15s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.25s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(7) { animation-delay: 0.35s; }
+        .gallery-item:nth-child(8) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(9) { animation-delay: 0.45s; }
+        
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="hero">
+        <h1>Оттенки&nbsp;&nbsp;🌸&nbsp;&nbsp;элегантности</h1>
+        <div class="sub">
+            <span><i class="fas fa-camera"></i> искренняя</span>
+            <span><i class="fas fa-feather-alt"></i>  нежная</span>
+            <span><i class="fas fa-heart"></i>  женственная</span>
+        </div>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid"></div>
+    <div class="footer-note">
+        <i class="far fa-images"></i>  галерея, вдохновленная красотой  ·  <i class="fas fa-mouse-pointer"></i>  нажми на фото для просмотра
+    </div>
+</div>
+
+<!-- Лайтбокс структура -->
+<div id="lightbox" class="lightbox">
+    <button class="close-lightbox" id="closeLightboxBtn"><i class="fas fa-times"></i></button>
+    <button class="nav-btn prev-btn" id="prevLightboxBtn"><i class="fas fa-chevron-left"></i></button>
+    <div class="lightbox-content">
+        <img id="lightboxImg" src="" alt="крупный план">
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+    <button class="nav-btn next-btn" id="nextLightboxBtn"><i class="fas fa-chevron-right"></i></button>
+</div>
+
+<script>
+    // -------- Фотографии и описания (уникальные и эстетичные, в высоком качестве Pexels/Unsplash, но без риска 404 используем проверенные источники с открытыми фото) --------
+    // Используем качественные стоковые фото с Unsplash, которые корректно отображаются в любом регионе.
+    // Тема: портреты и атмосферные фото девушек — естественная красота, свет, эмоции.
+    // Все изображения имеют свободную лицензию (Unsplash API / демо-режим). Для гарантии работоспособности ссылки ведут на публичные файлы.
+    
+    const galleryData = [
+        {
+            src: "./img/gallery/pervoefoto.jpg",
+            alt: "Портрет девушки с цветком в волосах",
+            caption: "Первое фото на мой телефон"
+        },
+        {
+            src: "./img/gallery/pervvstr.jpg",
+            alt: "Девушка в светлом платье, закатный свет",
+            caption: "Первая встреча в городе вдвоем"
+        },
+        {
+            src: "./img/gallery/korobka.jpg",
+            alt: "Естественная улыбка крупным планом",
+            caption: "Даже после 40к шагов я иду к тебе"
+        },
+        {
+            src: "./img/gallery/glazpalec.jpg",
+            alt: "Девушка в вязаном свитере, уютная атмосфера",
+            caption: "Учимся косоглазию"
+        },
+        {
+            src: "./img/gallery/hockey.jpg",
+            alt: "Черно-белый портрет, выразительный взгляд",
+            caption: "Подшарила за хоккей"
+        },
+        {
+            src: "./img/gallery/ruki.jpg",
+            alt: "Девушка с книгой в парке",
+            caption: "Зарождение наших чувств"
+        },
+        {
+            src: "./img/gallery/dr.jpg",
+            alt: "Летнее платье и солнечные блики",
+            caption: "Отпраздновали мое 18-летие"
+        },
+        {
+            src: "./img/gallery/muka.jpg",
+            alt: "Фото с чашкой кофе, утреннее настроение",
+            caption: "Готовили вместе"
+        },
+        {
+            src: "./img/gallery/usy.jpg",
+            alt: "Вечерний город, портрет с огнями",
+            caption: "Вайбово фоткались"
+        },
+        {
+            src: "./img/gallery/zal.jpg",
+            alt: "Вечерний город, портрет с огнями",
+            caption: "Тренировались вместе"
+        },
+        {
+            src: "./img/gallery/trubochka.jpg",
+            alt: "Вечерний город, портрет с огнями",
+            caption: "Еще фоточки"
+        },
+        {
+            src: "./img/gallery/zerkalo.jpg",
+            alt: "Вечерний город, портрет с огнями",
+            caption: "Вайбим на ночевке"
+        },
+        {
+            src: "./img/gallery/yazyk.jpg",
+            alt: "Вечерний город, портрет с огнями",
+            caption: "Любимая эмоция"
+        },
+        {
+            src: "./img/gallery/videozvonok.jpg",
+            alt: "Вечерний город, портрет с огнями",
+            caption: "Часто болтали по видео"
+        },
+        {
+            src: "./img/gallery/krasota.jpg",
+            alt: "Вечерний город, портрет с огнями",
+            caption: "Постоянно любуюсь на тебя"
+        },
+        {
+            src: "./img/gallery/zayka.jpg",
+            alt: "Вечерний город, портрет с огнями",
+            caption: "Присылала фоточки"
+        },
+        {
+            src: "./img/gallery/fak.jpg",
+            alt: "Вечерний город, портрет с огнями",
+            caption: "Иногда бесил"
+        },
+        {
+            src: "./img/gallery/splusnulo.jpg",
+            alt: "Вечерний город, портрет с огнями",
+            caption: "Фоткала меня"
+        },
+        {
+            src: "./img/gallery/stich.jpg",
+            alt: "Вечерний город, портрет с огнями",
+            caption: "Сидела с нашим сыном"
+        },
+        {
+            src: "./img/gallery/skafandr.jpg",
+            alt: "Вечерний город, портрет с огнями",
+            caption: "Кайфовали в деревне"
+        },
+        {
+            src: "./img/gallery/nepon.jpg",
+            alt: "Вечерний город, портрет с огнями",
+            caption: "Бывало не понимала что-то"
+        },
+        {
+            src: "./img/gallery/jungle.jpg",
+            alt: "Вечерний город, портрет с огнями",
+            caption: "Любим покушать"
+        },
+        {
+            src: "./img/gallery/dovolnost.jpg",
+            alt: "Вечерний город, портрет с огнями",
+            caption: "Целуешь меня"
+        }
+
+    ];
+
+    // дополнительно убедимся, что все изображения доступны — Pexels работает отлично, плюс используем высокое качество.
+    // если какой-то url устарел, но pexels стабилен.
+
+    const galleryGrid = document.getElementById('galleryGrid');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    let currentIndex = 0;
+
+    // функция рендера галереи
+    function buildGallery() {
+        galleryGrid.innerHTML = '';
+        galleryData.forEach((item, idx) => {
+            const card = document.createElement('div');
+            card.className = 'gallery-item';
+            // дополнительный атрибут data-index для удобства
+            card.setAttribute('data-index', idx);
+            
+            const img = document.createElement('img');
+            img.src = item.src;
+            img.alt = item.alt;
+            img.loading = 'lazy';
+            
+            const overlay = document.createElement('div');
+            overlay.className = 'overlay-caption';
+            const captionSpan = document.createElement('span');
+            captionSpan.className = 'caption-text';
+            captionSpan.innerHTML = `<i class="fas fa-camera-retro" style="margin-right: 5px;"></i> ${item.caption}`;
+            overlay.appendChild(captionSpan);
+            
+            card.appendChild(img);
+            card.appendChild(overlay);
+            
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openLightbox(idx);
+            });
+            
+            galleryGrid.appendChild(card);
+        });
+    }
+
+    // открыть лайтбокс с индексом
+    function openLightbox(index) {
+        if (!galleryData[index]) return;
+        currentIndex = index;
+        updateLightboxContent();
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden'; // блокируем скролл
+    }
+
+    function updateLightboxContent() {
+        const item = galleryData[currentIndex];
+        if (item) {
+            lightboxImg.src = item.src;
+            lightboxImg.alt = item.alt;
+            lightboxCaption.textContent = item.caption;
+        }
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function nextImage() {
+        currentIndex = (currentIndex + 1) % galleryData.length;
+        updateLightboxContent();
+    }
+
+    function prevImage() {
+        currentIndex = (currentIndex - 1 + galleryData.length) % galleryData.length;
+        updateLightboxContent();
+    }
+
+    // закрытие по клику на фон (но не на контент)
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+    // обработчики для кнопок
+    document.getElementById('closeLightboxBtn').addEventListener('click', closeLightbox);
+    document.getElementById('nextLightboxBtn').addEventListener('click', nextImage);
+    document.getElementById('prevLightboxBtn').addEventListener('click', prevImage);
+
+    // клавиши клавиатуры: Escape, стрелки
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('active')) return;
+        if (e.key === 'Escape') {
+            closeLightbox();
+        } else if (e.key === 'ArrowRight') {
+            nextImage();
+        } else if (e.key === 'ArrowLeft') {
+            prevImage();
+        }
+    });
+
+    // Запускаем построение галереи
+    buildGallery();
+
+    // дополнительно: предзагрузка первой и следующей для плавности (не обязательно, но приятно)
+    // Добавим небольшую защиту от случайных ошибок загрузки — установим fallback img onerror?
+    // Но pexels очень надежен, но на всякий случай, чтобы пользователь не видел битый квадрат — оставим плавное поведение.
+    // Для эстетики можно добавить мягкий эффект появления.
+    
+    // так же добавим динамическое изменение title при открытии лайтбокса (опционально)
+    function updateMetaOnLightbox(active) {
+        if(active) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+    
+    // небольшой наблюдатель за изменением класса (чтобы перехватить overflow)
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mut) => {
+            if (mut.attributeName === 'class') {
+                if (lightbox.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+    });
+    observer.observe(lightbox, { attributes: true });
+    
+    // изначально body overflow нормальный, а при повторном открытии — срабатывает MutationObserver, также closeLightbox снимает overflow.
+    // Дополним функцию closeLightbox для надежности:
+    const originalClose = closeLightbox;
+    window.closeLightbox = closeLightbox;
+    closeLightbox = function() {
+        originalClose();
+        document.body.style.overflow = '';
+    }
+    // перепривяжем обработчики, чтобы использовалась новая функция
+    document.getElementById('closeLightboxBtn').removeEventListener('click', window.closeLightbox);
+    document.getElementById('closeLightboxBtn').addEventListener('click', () => closeLightbox());
+    // исправим ссылку
+    window.closeLightbox = closeLightbox;
+    
+    // Обновим саму функцию close в замыкании, но более чистый способ: заменим переменную. Но в коде уже определены ссылки. Сделаем проще:
+    // переопределим обработчик закрытия по клику на оверлей с учётом новой closeLightbox
+    lightbox.removeEventListener('click', (e) => {});
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+    
+    // также для кнопок надо корректно вызвать updated close
+    const closeBtn = document.getElementById('closeLightboxBtn');
+    closeBtn.removeEventListener('click', closeLightbox);
+    closeBtn.addEventListener('click', () => closeLightbox());
+    
+    // еще раз удостоверимся, что overflow снимается при любом закрытии
+    const originalUpdate = updateLightboxContent;
+    // всё работает
+</script>
+            <a href="./index.html" class="inner-page-backlink">
+                <img src="./img/icons/arrow-left.svg" alt="Назад на главную">
+                Назад на главную
+
+            </a>
+<!-- Убедимся, что все обработчики настроены без ошибок -->
+</body>
+</html>
